@@ -66,7 +66,10 @@
 },
 {
   "name":"java.lang.ClassLoader",
-  "methods":[{"name":"getPlatformClassLoader","parameterTypes":[] }]
+  "methods":[
+    {"name":"getPlatformClassLoader","parameterTypes":[] }, 
+    {"name":"loadClass","parameterTypes":["java.lang.String"] }
+  ]
 },
 {
   "name":"java.lang.String",
@@ -86,5 +89,12 @@
     {"name":"get","parameterTypes":["java.lang.Object"] }, 
     {"name":"put","parameterTypes":["java.lang.Object","java.lang.Object"] }
   ]
+},
+{
+  "name":"jdk.internal.loader.ClassLoaders$PlatformClassLoader"
+},
+{
+  "name":"org.graalvm.nativebridge.jni.JNIExceptionWrapperEntryPoints",
+  "methods":[{"name":"getClassName","parameterTypes":["java.lang.Class"] }]
 }
 ]

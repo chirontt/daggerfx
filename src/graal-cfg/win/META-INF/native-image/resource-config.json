@@ -3,6 +3,7 @@
   "includes":[]},
   "bundles":[
     {"name":"com.sun.javafx.tk.quantum.QuantumMessagesBundle"}, 
+    {"name":"com/sun/glass/ui/win/themes"}, 
     {"name":"ui"}
   ]
 }

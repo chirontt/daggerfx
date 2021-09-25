@@ -7,10 +7,10 @@
     <description>Sample JavaFX app using Dagger 2 for DI of controllers and services</description>
 
     <properties>
-        <dagger.version>2.37</dagger.version>
-        <javafx.version>16</javafx.version>
+        <dagger.version>2.38.1</dagger.version>
+        <javafx.version>17.0.0.1</javafx.version>
         <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
-        <gluonfx.maven.plugin.version>1.0.1</gluonfx.maven.plugin.version>
+        <gluonfx.maven.plugin.version>1.0.5</gluonfx.maven.plugin.version>
         <main.module>daggerfx</main.module> <!-- name defined in module-info.java -->
         <main.class>daggerfx.CoffeeApp</main.class>
         <launcher.class>daggerfx.Launcher</launcher.class>
@@ -50,6 +50,14 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>google-maven</id>
+            <name>Google Maven Repo</name>
+            <url>https://maven.google.com</url>
+        </repository>
+    </repositories>
+  
     <build>
         <resources>
             <resource>
@@ -58,9 +66,6 @@
             <!-- include the GraalVM native-image configuration files -->
             <resource>
                 <directory>src/graal-cfg/${javafx.platform}</directory>
-                <includes>
-                    <include>META-INF/**/*</include>
-                </includes>
             </resource>
         </resources>
         <plugins>
@@ -101,7 +106,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -141,7 +146,8 @@
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
-            <!-- folowing plugins are needed to produce a jlink image for the project -->
+            <!-- folowing plugins are needed to produce a jlink image for the project:
+                 1. copy all dependencies to target/modules folder -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -162,6 +168,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- 2. project's jar file is created in target/modules folder -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -170,11 +177,13 @@
                     <outputDirectory>${project.build.directory}/modules</outputDirectory>
                 </configuration>
             </plugin>
+            <!-- 3. generate the jlink image for the daggerfx application -->
             <plugin>
                 <groupId>org.moditect</groupId>
                 <artifactId>moditect-maven-plugin</artifactId>
                 <version>1.0.0.RC1</version>
                 <executions>
+                    <!-- 3a. modularize the non-modular dagger library -->
                     <execution>
                         <id>add-module-infos</id>
                         <phase>generate-resources</phase>
@@ -185,7 +194,6 @@
                             <outputDirectory>${project.build.directory}/modules</outputDirectory>
                             <overwriteExistingFiles>true</overwriteExistingFiles>
                             <modules>
-                                <!-- modularize the non-modular dagger library -->
                                 <module>
                                     <artifact>
                                         <groupId>com.google.dagger</groupId>
@@ -205,6 +213,7 @@
                             </modules>
                         </configuration>
                     </execution>
+                    <!-- 3b. generate the jlink image from the target/modules folder -->
                     <execution>
                         <id>create-runtime-image</id>
                         <phase>package</phase>

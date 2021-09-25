@@ -162,10 +162,20 @@
 },
 {
   "name":"java.lang.ClassLoader",
-  "methods":[{"name":"getPlatformClassLoader","parameterTypes":[] }]
+  "methods":[
+    {"name":"getPlatformClassLoader","parameterTypes":[] }, 
+    {"name":"loadClass","parameterTypes":["java.lang.String"] }
+  ]
 },
 {
   "name":"java.lang.Runnable",
   "methods":[{"name":"run","parameterTypes":[] }]
+},
+{
+  "name":"jdk.internal.loader.ClassLoaders$PlatformClassLoader"
+},
+{
+  "name":"org.graalvm.nativebridge.jni.JNIExceptionWrapperEntryPoints",
+  "methods":[{"name":"getClassName","parameterTypes":["java.lang.Class"] }]
 }
 ]
