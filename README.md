@@ -152,12 +152,3 @@ The `gluonfx:build` task will take a while to finish, resulting in a native exec
 
 )
 
-## Compressed native executable
-
-The resulting `daggerfx` native executable, whether produced by Gradle or Maven build script,
-can be further reduced in size via compression using the [UPX](https://upx.github.io)
-utility, as described [here](https://medium.com/graalvm/compressed-graalvm-native-images-4d233766a214).
-
-For example, the resulting `daggerfx.exe` native executable produced in Windows is normally 61MB in size,
-but is compressed to 16MB with the UPX command: `upx --best daggerfx.exe`
-

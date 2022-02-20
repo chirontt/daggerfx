@@ -7,10 +7,10 @@
     <description>Sample JavaFX app using Dagger 2 for DI of controllers and services</description>
 
     <properties>
-        <dagger.version>2.40.5</dagger.version>
-        <javafx.version>17.0.1</javafx.version>
+        <dagger.version>2.41</dagger.version>
+        <javafx.version>17.0.2</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-        <gluonfx.maven.plugin.version>1.0.10</gluonfx.maven.plugin.version>
+        <gluonfx.maven.plugin.version>1.0.12</gluonfx.maven.plugin.version>
         <main.module>daggerfx</main.module> <!-- name defined in module-info.java -->
         <main.class>daggerfx.CoffeeApp</main.class>
         <launcher.class>daggerfx.Launcher</launcher.class>
@@ -90,8 +90,9 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.9.0</version>
                 <configuration>
                     <release>11</release>
                     <annotationProcessorPaths>
@@ -101,6 +102,16 @@
                             <version>${dagger.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <!-- create project's jar file in the target/modules folder
+                 (to be used in the jlink image creation later) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/modules</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -146,8 +157,8 @@
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
-            <!-- folowing plugins are needed to produce a jlink image for the project:
-                 1. copy all dependencies to target/modules folder -->
+            <!-- following plugins are used, at package phase, to produce a jlink image for the project:
+                 1. copy all dependencies to the target/modules folder -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -168,22 +179,13 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- 2. project's jar file is created in target/modules folder -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/modules</outputDirectory>
-                </configuration>
-            </plugin>
-            <!-- 3. generate the jlink image for the daggerfx application -->
+            <!-- 2. generate the jlink image for the daggerfx application -->
             <plugin>
                 <groupId>org.moditect</groupId>
                 <artifactId>moditect-maven-plugin</artifactId>
                 <version>1.0.0.RC2</version>
                 <executions>
-                    <!-- 3a. modularize the non-modular dagger library -->
+                    <!-- 2a. modularize the non-modular dagger library -->
                     <execution>
                         <id>add-module-infos</id>
                         <phase>generate-resources</phase>
@@ -213,7 +215,7 @@
                             </modules>
                         </configuration>
                     </execution>
-                    <!-- 3b. generate the jlink image from the target/modules folder -->
+                    <!-- 2b. generate the jlink image from the target/modules folder -->
                     <execution>
                         <id>create-runtime-image</id>
                         <phase>package</phase>
@@ -225,11 +227,15 @@
                                 <path>${project.build.directory}/modules</path>
                             </modulePath>
                             <modules>
-                                <module>daggerfx</module>
+                                <module>${main.module}</module>
                             </modules>
-                            <jarInclusionPolicy>APP_WITH_DEPENDENCIES</jarInclusionPolicy>
+                            <stripDebug>true</stripDebug>
+                            <noManPages>true</noManPages>
+                            <noHeaderFiles>true</noHeaderFiles>
+                            <compression>2</compression>
+                            <jarInclusionPolicy>NONE</jarInclusionPolicy>
                             <launcher>
-                                <name>daggerfx</name>
+                                <name>${main.module}</name>
                                 <module>${main.module}/${main.class}</module>
                             </launcher>
                             <outputDirectory>${project.build.directory}/${main.module}-${project.version}-${javafx.platform}</outputDirectory>
