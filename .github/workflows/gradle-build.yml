@@ -42,6 +42,10 @@ jobs:
           java -version
           javac -version
 
+      - name: Install needed dev packages in Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y libasound2-dev libavcodec-dev libavformat-dev libavutil-dev
+
       - name: Build with Gradle Wrapper (Linux)
         run: ./gradlew --no-daemon --info nativeBuild
         if: runner.os != 'Windows'

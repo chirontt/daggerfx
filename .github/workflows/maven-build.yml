@@ -32,6 +32,10 @@ jobs:
           java -version
           javac -version
 
+      - name: Install needed dev packages in Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y libasound2-dev libavcodec-dev libavformat-dev libavutil-dev
+
       - name: Build with Maven Wrapper (Linux)
         run: ./mvnw -V -B gluonfx:build
         if: runner.os == 'Linux'
@@ -52,5 +56,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: daggerfx ${{ runner.os }} native image with SubstrateVM for Java ${{ matrix.java-version }}
-          path: target/gluonfx/x86_64-windows/daggerfx*
+          path: target/gluonfx/x86_64-windows/daggerfx.exe
 
