@@ -7,10 +7,10 @@
     <description>Sample JavaFX app using Dagger 2 for DI of controllers and services</description>
 
     <properties>
-        <dagger.version>2.42</dagger.version>
-        <javafx.version>18.0.1</javafx.version>
+        <dagger.version>2.44</dagger.version>
+        <javafx.version>17.0.2</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-        <gluonfx.maven.plugin.version>1.0.13</gluonfx.maven.plugin.version>
+        <gluonfx.maven.plugin.version>1.0.15</gluonfx.maven.plugin.version>
         <main.module>daggerfx</main.module> <!-- name defined in module-info.java -->
         <main.class>daggerfx.CoffeeApp</main.class>
         <launcher.class>daggerfx.Launcher</launcher.class>
@@ -269,10 +269,11 @@
             </properties>
         </profile>
         <profile>
-            <id>linux</id>
+            <id>linux-amd64</id>
             <activation>
                 <os>
-                    <name>linux</name>
+                    <name>Linux</name>
+                    <arch>amd64</arch>
                 </os>
             </activation>
             <properties>
@@ -280,10 +281,23 @@
             </properties>
         </profile>
         <profile>
-            <id>macosx</id>
+            <id>linux-arm64</id>
             <activation>
                 <os>
-                    <name>mac os x</name>
+                    <family>Linux</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>linux-aarch64</javafx.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>mac-amd64</id>
+            <activation>
+                <os>
+                    <name>Mac</name>
+                    <arch>x86_64</arch>
                 </os>
             </activation>
             <properties>
@@ -291,14 +305,39 @@
             </properties>
         </profile>
         <profile>
-            <id>windows</id>
+            <id>mac-arm64</id>
             <activation>
                 <os>
-                    <family>windows</family>
+                    <family>Mac</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>mac-aarch64</javafx.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-amd64</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                    <arch>amd64</arch>
                 </os>
             </activation>
             <properties>
                 <javafx.platform>win</javafx.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-arm64</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>win-aarch64</javafx.platform>
             </properties>
         </profile>
         <profile>

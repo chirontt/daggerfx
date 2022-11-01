@@ -1,13 +1,13 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.13'  //requires JDK11+
-    id 'com.gluonhq.gluonfx-gradle-plugin' version '1.0.13'
+    id 'com.gluonhq.gluonfx-gradle-plugin' version '1.0.15'
     id 'eclipse'
     id 'org.beryx.jlink' version '2.25.0'
 }
 
 tasks.wrapper {
-    gradleVersion = '7.4.2'
+    gradleVersion = '7.5.1'
     distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -19,8 +19,8 @@ ext {
     mainClassName = 'daggerfx.CoffeeApp'
     launcherClassName = 'daggerfx.Launcher'
     moduleName = 'daggerfx' //name defined in module-info.java
-    javafxVersion = '18.0.1'  //requires JDK11+
-    daggerVersion = '2.42'
+    javafxVersion = '17.0.2'  //requires JDK11+
+    daggerVersion = '2.44'
     currentPlatform = javafx.platform.classifier
 }
 
@@ -49,11 +49,6 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
 
-configurations {
-    //define a configuration for other supported OS native libraries (apart from the current OS)
-    otherOSnatives
-}
-
 dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation("com.google.dagger:dagger:$daggerVersion") {
@@ -62,16 +57,6 @@ dependencies {
     }
     //javax.inject modular replacement
     implementation 'com.guicedee.services:javax.inject:1.0.20.2'
-
-    ['linux', 'mac', 'win'].each { classifier ->
-        if (classifier != currentPlatform) {
-            otherOSnatives "org.openjfx:javafx-base:$javafxVersion:$classifier"
-            otherOSnatives "org.openjfx:javafx-controls:$javafxVersion:$classifier"
-            otherOSnatives "org.openjfx:javafx-fxml:$javafxVersion:$classifier"
-            otherOSnatives "org.openjfx:javafx-graphics:$javafxVersion:$classifier"
-            otherOSnatives "org.openjfx:javafx-swing:$javafxVersion:$classifier"
-        }
-    }
 }
 
 sourceSets {
@@ -139,8 +124,7 @@ task uberJar(type: Jar) {
         )
     }
     from {
-        def allClasspaths = configurations.runtimeClasspath + configurations.otherOSnatives
-        allClasspaths.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     duplicatesStrategy 'exclude'
 }
