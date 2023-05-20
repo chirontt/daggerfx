@@ -7,10 +7,10 @@
     <description>Sample JavaFX app using Dagger 2 for DI of controllers and services</description>
 
     <properties>
-        <dagger.version>2.44</dagger.version>
-        <javafx.version>17.0.2</javafx.version>
+        <dagger.version>2.46.1</dagger.version>
+        <javafx.version>17.0.7</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-        <gluonfx.maven.plugin.version>1.0.15</gluonfx.maven.plugin.version>
+        <gluonfx.maven.plugin.version>1.0.18</gluonfx.maven.plugin.version>
         <main.module>daggerfx</main.module> <!-- name defined in module-info.java -->
         <main.class>daggerfx.CoffeeApp</main.class>
         <launcher.class>daggerfx.Launcher</launcher.class>
