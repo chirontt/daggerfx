@@ -18,23 +18,20 @@ To build and run the `daggerfx` application in standard JVM environment, execute
 
 	gradlew run
 
-To create an executable uber jar which includes all dependencies for all supported OS'es:
+To create an executable uber jar which includes all dependencies for the current platform:
 
 	gradlew uberJar
 
-and the resulting `daggerfx-1.0.0-SNAPSHOT-no-deps.jar` file should be created in
-`build/libs` directory, and can be executed directly with the `java -jar` command:
+and the resulting `daggerfx-1.0.0-SNAPSHOT-no-deps-<currentPlatform>.jar` file should be created in
+`build/libs` directory, and can be executed directly with the `java -jar` command, e.g. in a Linux box:
 
-	java -jar build/libs/daggerfx-1.0.0-SNAPSHOT-no-deps.jar
+	java -jar build/libs/daggerfx-1.0.0-SNAPSHOT-no-deps-linux.jar
 
 (or if building on a Windows machine:
 
-	java -jar build\libs\daggerfx-1.0.0-SNAPSHOT-no-deps.jar
+	java -jar build\libs\daggerfx-1.0.0-SNAPSHOT-no-deps-win.jar
 
 )
-
-This `daggerfx-1.0.0-SNAPSHOT-no-deps.jar` file should be portable across all
-three supported OS'es (Windows, Mac and Linux.)
 
 To produce a [jlink image](https://dzone.com/articles/jlink-in-java-9)
 of the `daggerfx` application for the current platform, execute the `jlink` task:
@@ -74,9 +71,9 @@ run the `nativeBuild` task to produce a native executable:
 
 	gradlew nativeBuild
 
-The `nativeBuild` task will take a while to finish, resulting in a native executable file at:
+The `nativeBuild` task will take a while to finish, resulting in a native executable file at, e.g. in a Linux box:
 
-	build/gluonfx/x86_64-linux/daggerfx
+	./build/gluonfx/x86_64-linux/daggerfx
 
 (or if building on a Windows machine:
 
@@ -98,7 +95,7 @@ To create an executable uber jar which includes all dependencies for the current
 	mvnw package
 
 and the resulting `daggerfx-1.0.0-SNAPSHOT-no-deps-<currentPlatform>.jar` file should be created in
-`target` directory, and can be executed directly with the `java -jar` command:
+`target` directory, and can be executed directly with the `java -jar` command, e.g. in a Linux box:
 
 	java -jar target/daggerfx-1.0.0-SNAPSHOT-no-deps-linux.jar
 
@@ -142,9 +139,9 @@ run the `gluonfx:build` task to produce a native executable:
 
 	mvnw gluonfx:build
 
-The `gluonfx:build` task will take a while to finish, resulting in a native executable file at:
+The `gluonfx:build` task will take a while to finish, resulting in a native executable file at, e.g. in a Linux box:
 
-	target/gluonfx/x86_64-linux/daggerfx
+	./target/gluonfx/x86_64-linux/daggerfx
 
 (or if building on a Windows machine:
 

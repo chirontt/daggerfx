@@ -1,13 +1,13 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13'  //requires JDK11+
-    id 'com.gluonhq.gluonfx-gradle-plugin' version '1.0.18'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'com.gluonhq.gluonfx-gradle-plugin' version '1.0.22'
     id 'eclipse'
-    id 'org.beryx.jlink' version '2.25.0'
+    id 'org.beryx.jlink' version '3.0.1'
 }
 
 tasks.wrapper {
-    gradleVersion = '8.1.1'
+    gradleVersion = '8.5'
     distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -19,8 +19,8 @@ ext {
     mainClassName = 'daggerfx.CoffeeApp'
     launcherClassName = 'daggerfx.Launcher'
     moduleName = 'daggerfx' //name defined in module-info.java
-    javafxVersion = '17.0.7'  //requires JDK11+
-    daggerVersion = '2.46.1'
+    javafxVersion = '21.0.1'
+    daggerVersion = '2.49'
     currentPlatform = javafx.platform.classifier
 }
 
@@ -40,7 +40,7 @@ repositories {
 }
 
 compileJava {
-    options.release = 11  //use JDK11+ for compiling & running
+    options.release = 11
     options.encoding = 'UTF-8'
 }
 
@@ -108,11 +108,10 @@ run {
 
 }
 
-//make an executable uber jar including all dependencies
-//which should work in all supported OS'es (Windows, Mac and Linux)
+//make an executable uber jar including all dependencies for current platform
 task uberJar(type: Jar) {
     with jar
-    archiveClassifier = 'no-deps'
+    archiveClassifier = "no-deps-$currentPlatform"
     manifest {
         attributes(
             'Main-Class': project.launcherClassName,

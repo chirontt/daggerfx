@@ -7,10 +7,10 @@
     <description>Sample JavaFX app using Dagger 2 for DI of controllers and services</description>
 
     <properties>
-        <dagger.version>2.46.1</dagger.version>
-        <javafx.version>17.0.7</javafx.version>
+        <dagger.version>2.49</dagger.version>
+        <javafx.version>21.0.1</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-        <gluonfx.maven.plugin.version>1.0.18</gluonfx.maven.plugin.version>
+        <gluonfx.maven.plugin.version>1.0.22</gluonfx.maven.plugin.version>
         <main.module>daggerfx</main.module> <!-- name defined in module-info.java -->
         <main.class>daggerfx.CoffeeApp</main.class>
         <launcher.class>daggerfx.Launcher</launcher.class>
@@ -187,7 +187,7 @@
             <plugin>
                 <groupId>org.moditect</groupId>
                 <artifactId>moditect-maven-plugin</artifactId>
-                <version>1.0.0.RC2</version>
+                <version>1.0.0.Final</version>
                 <executions>
                     <!-- 2a. modularize the non-modular dagger library -->
                     <execution>
