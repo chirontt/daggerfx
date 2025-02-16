@@ -1,16 +1,19 @@
-bin
-
 # Eclipse Settings Files #
 .settings
 .project
 .classpath
+bin
 
 # Maven #
+dependency-reduced-pom.xml
 target
 
-# IntelliJ
+# IntelliJ #
 .idea
 *.iml
+
+# Gradle #
 .gradle
 build
+
 .vscode

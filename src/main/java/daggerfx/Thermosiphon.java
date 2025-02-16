@@ -1,6 +1,6 @@
 package daggerfx;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 class Thermosiphon implements Pump {
 	private final Heater heater;
