@@ -6,6 +6,9 @@ JavaFX controllers and services.
 
 ----
 
+[![Github Actions Build Status](https://github.com/chirontt/daggerfx/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/chirontt/daggerfx/actions/workflows/gradle-build.yml)
+[![Github Actions Build Status](https://github.com/chirontt/daggerfx/actions/workflows/maven-build.yml/badge.svg)](https://github.com/chirontt/daggerfx/actions/workflows/maven-build.yml)
+
 This fork adds the Gradle build script, creates [jlink image](https://dzone.com/articles/jlink-in-java-9),
 and builds native image with [GraalVM native-image](https://www.graalvm.org/reference-manual/native-image/)
 utility.

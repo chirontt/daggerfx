@@ -1,6 +1,6 @@
 package daggerfx;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import dagger.Component;
 

@@ -7,10 +7,10 @@
     <description>Sample JavaFX app using Dagger 2 for DI of controllers and services</description>
 
     <properties>
-        <dagger.version>2.49</dagger.version>
-        <javafx.version>21.0.1</javafx.version>
+        <dagger.version>2.55</dagger.version>
+        <javafx.version>21.0.6</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-        <gluonfx.maven.plugin.version>1.0.22</gluonfx.maven.plugin.version>
+        <gluonfx.maven.plugin.version>1.0.23</gluonfx.maven.plugin.version>
         <main.module>daggerfx</main.module> <!-- name defined in module-info.java -->
         <main.class>daggerfx.CoffeeApp</main.class>
         <launcher.class>daggerfx.Launcher</launcher.class>
@@ -40,13 +40,18 @@
                     <groupId>javax.inject</groupId>
                     <artifactId>javax.inject</artifactId>
                 </exclusion>
-            </exclusions> 
+            </exclusions>
         </dependency>
         <!-- javax.inject modular replacement -->
         <dependency>
             <groupId>com.guicedee.services</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1.0.20.2</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>2.0.1</version>
         </dependency>
     </dependencies>
 
@@ -92,10 +97,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                     <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.dagger</groupId>
+                            <artifactId>dagger</artifactId>
+                            <version>${dagger.version}</version>
+                            <exclusions>
+                                <exclusion>
+                                    <groupId>javax.inject</groupId>
+                                    <artifactId>javax.inject</artifactId>
+                                </exclusion>
+                            </exclusions>
+                        </path>
                         <path>
                             <groupId>com.google.dagger</groupId>
                             <artifactId>dagger-compiler</artifactId>
@@ -109,7 +125,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.2</version>
                 <configuration>
                     <outputDirectory>${project.build.directory}/modules</outputDirectory>
                 </configuration>
@@ -117,7 +133,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -166,7 +182,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.8.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -187,7 +203,7 @@
             <plugin>
                 <groupId>org.moditect</groupId>
                 <artifactId>moditect-maven-plugin</artifactId>
-                <version>1.0.0.Final</version>
+                <version>1.2.2.Final</version>
                 <executions>
                     <!-- 2a. modularize the non-modular dagger library -->
                     <execution>
@@ -208,6 +224,7 @@
                                     </artifact>
                                     <moduleInfoSource>
                                         module dagger {
+                                            requires transitive jakarta.inject;
                                             requires transitive javax.inject;
                                             exports dagger;
                                             exports dagger.assisted;

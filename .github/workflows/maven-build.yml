@@ -18,13 +18,18 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up GraalVM ${{ matrix.graalvm-distribution }} for Java ${{ matrix.java-version }}
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: ${{ matrix.java-version }}
           distribution: ${{ matrix.graalvm-distribution }}
+          cache: 'maven'
+
+      - name: Set up a Developer Command Prompt for Microsoft Visual C++ (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Report Java version
         run: |
@@ -45,14 +50,14 @@ jobs:
 
       - name: Package Linux artifact
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: daggerfx ${{ runner.os }} native image with SubstrateVM for Java ${{ matrix.java-version }}
           path: target/gluonfx/x86_64-linux/daggerfx*
 
       - name: Package Windows artifacts
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: daggerfx ${{ runner.os }} native image with SubstrateVM for Java ${{ matrix.java-version }}
           path: target/gluonfx/x86_64-windows/daggerfx.exe
